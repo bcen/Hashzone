@@ -14,7 +14,8 @@ namespace Hashzone.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private string _status = String.Empty;
+        private string _status;
+        private bool _allowDrop = true;
         private string _droppedFilePath = String.Empty;
 
         public MainWindowViewModel()
@@ -25,7 +26,6 @@ namespace Hashzone.ViewModels
 
         public void HandleFileDrop(string[] paths)
         {
-            Status = "Hashing file. . .";
             _droppedFilePath = paths[0];
             Thread t = new Thread(new ThreadStart(DoHashFile));
             t.Start();
@@ -35,11 +35,17 @@ namespace Hashzone.ViewModels
         {
             try
             {
+                AllowDrop = false;
+                Status = "Hashing file. . .";
                 Status = "SHA1: " + HashUtil.HashFile(_droppedFilePath);
             }
             catch (Exception ex)
             {
                 Status = "Unable to hash the file.";
+            }
+            finally
+            {
+                AllowDrop = true;
             }
         }
 
@@ -52,6 +58,19 @@ namespace Hashzone.ViewModels
                 {
                     _status = value;
                     NotifyPropertyChanged("Status");
+                }
+            }
+        }
+
+        public bool AllowDrop
+        {
+            get { return _allowDrop; }
+            set
+            {
+                if (_allowDrop != value && !_allowDrop.Equals(value))
+                {
+                    _allowDrop = value;
+                    NotifyPropertyChanged("AllowDrop");
                 }
             }
         }

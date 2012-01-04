@@ -9,7 +9,7 @@ namespace Hashzone.Util
         public static string HashFile(string filePath)
         {
             string sha1 = String.Empty;
-            int blockSize = 4 * 1024 * 1024; // 4MB
+            int blockSize = 2 * 1024;
             int bytesRead;
             byte[] buffer = new byte[blockSize];
             HashAlgorithm hashFunc = HashAlgorithm.Create("SHA1");
@@ -25,6 +25,8 @@ namespace Hashzone.Util
 
             sha1 = BitConverter.ToString(hashFunc.Hash).ToLower().Replace("-", String.Empty);
             hashFunc.Clear();
+            buffer = null;
+            hashFunc = null;
 
             return sha1;
         }
