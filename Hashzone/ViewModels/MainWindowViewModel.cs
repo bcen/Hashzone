@@ -16,17 +16,26 @@ namespace Hashzone.ViewModels
     {
         private string _status;
         private bool _allowDrop = true;
-        private string _droppedFilePath = String.Empty;
+        private string[] _droppedFilePaths;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel() 
+                : this(String.Empty, true) 
+        { }
+
+        public MainWindowViewModel(string status, bool allowDrop)
+                : this(status, allowDrop, null)
+        { }
+
+        public MainWindowViewModel(string status, bool allowDrop, string[] filePaths)
         {
-            // Block.Empty;
-            _status = "Drag 'n' Drop file into the hash zone.";
+            _status = status;
+            _allowDrop = allowDrop;
+            _droppedFilePaths = filePaths;
         }
 
         public void HandleFileDrop(string[] paths)
         {
-            _droppedFilePath = paths[0];
+            _droppedFilePaths = paths;
             Thread t = new Thread(new ThreadStart(DoHashFile));
             t.Start();
         }
@@ -37,7 +46,7 @@ namespace Hashzone.ViewModels
             {
                 AllowDrop = false;
                 Status = "Hashing file. . .";
-                Status = "SHA1: " + HashUtil.HashFile(_droppedFilePath);
+                Status = "SHA1: " + HashUtil.HashFile(_droppedFilePaths[0]);
             }
             catch (Exception ex)
             {
