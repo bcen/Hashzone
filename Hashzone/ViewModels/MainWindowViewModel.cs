@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,27 @@ namespace Hashzone.ViewModels
             _status = status;
             _allowDrop = allowDrop;
             _droppedFilePaths = filePaths;
+        }
+
+        public void HandleFileDropEvent(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                HandleFileDrop((string[])e.Data.GetData(DataFormats.FileDrop));
+            }
+            else if (e.Data.GetDataPresent(DataFormats.UnicodeText)
+                        || e.Data.GetDataPresent(DataFormats.Text))
+            {
+                string hexString = (string)e.Data.GetData(DataFormats.UnicodeText);
+                if (hexString.Length != 40)
+                {
+                    Status = "It doesn't seem like a hex string.";
+                }
+            }
+            else
+            {
+                Status = "The drop does not associate with any file type.";
+            }
         }
 
         public void HandleFileDrop(string[] paths)

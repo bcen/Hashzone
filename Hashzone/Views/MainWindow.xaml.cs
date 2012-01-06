@@ -19,13 +19,10 @@ namespace Hashzone.Views
         private void FileDropEventHandler(object sender, DragEventArgs e)
         {
             MainWindowViewModel vm = DataContext as MainWindowViewModel;
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (vm != null)
             {
-                vm.Status = "The drop does not associate with any file types.";
-                return;
+                vm.HandleFileDropEvent(e);
             }
-
-            vm.HandleFileDrop((string[])e.Data.GetData(DataFormats.FileDrop));
         }
     }
 }
