@@ -8,8 +8,13 @@ namespace Hashzone.Util
     {
         public static string HashFile(string filePath)
         {
+            return HashFile(filePath, "SHA1");
+        }
+
+        public static string HashFile(string filePath, string hashName)
+        {
             string sha1 = String.Empty;
-            HashAlgorithm hashFunc = HashAlgorithm.Create("SHA1");
+            HashAlgorithm hashFunc = HashAlgorithm.Create(hashName);
 
             using (Stream stream = new BufferedStream(File.OpenRead(filePath)))
                 hashFunc.ComputeHash(stream);

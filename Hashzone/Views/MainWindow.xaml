@@ -12,4 +12,13 @@
         <!-- Image Margin="141,71,152,85" Name="image1" Stretch="Fill" Source="/Hashzone;component/1325625412_help-and-support.png" /-->
     </Grid>
     
+    <Window.ContextMenu>
+        <ContextMenu Name="ctxMenu">
+            <MenuItem Header="Hash functions">
+                <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5}" Command="{Binding Path=MD5Command}"/>
+                <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1}" Command="{Binding Path=SHA1Command}"/>
+            </MenuItem>
+        </ContextMenu>
+    </Window.ContextMenu>
+    
 </Window>
