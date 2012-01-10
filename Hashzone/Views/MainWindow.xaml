@@ -14,7 +14,8 @@
     
     <Window.ContextMenu>
         <ContextMenu Name="ctxMenu">
-            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}"/>
+            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" />
+            <MenuItem Header="Paste" />
             <Separator />
             <MenuItem Header="Hash Function">
                 <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />

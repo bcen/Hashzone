@@ -20,6 +20,7 @@ namespace Hashzone.ViewModels
         private string[] _droppedFilePaths;
         private bool _useMD5;
         private bool _useSHA1;
+        private string _hashMessage;
         private ICommand _md5Command;
         private ICommand _sha1Command;
         private ICommand _copyCommand;
@@ -65,6 +66,7 @@ namespace Hashzone.ViewModels
                 Status = "Hashing file. . .";
                 string hashName = UseMD5 ? "MD5" : "SHA1";
                 string message = HashUtil.HashFile(_droppedFilePaths[0], hashName);
+                _hashMessage = message;
                 Status = hashName + ": " + message;
             }
             catch (Exception ex)
@@ -102,7 +104,7 @@ namespace Hashzone.ViewModels
             get
             {
                 if (_copyCommand == null)
-                    _copyCommand = new RelayCommand(CopyExecute);
+                    _copyCommand = new RelayCommand(CopyExecute, CopyCanExecute);
                 return _copyCommand;
             }
         }
@@ -123,7 +125,13 @@ namespace Hashzone.ViewModels
 
         private void CopyExecute()
         {
-            Clipboard.SetText(Status);
+            Clipboard.SetText(_hashMessage);
+        }
+
+        private bool CopyCanExecute()
+        {
+            if (_hashMessage == null || _hashMessage.Equals(String.Empty)) return false;
+            return true;
         }
 
         public string Status
