@@ -22,6 +22,7 @@ namespace Hashzone.ViewModels
         private bool _useSHA1;
         private ICommand _md5Command;
         private ICommand _sha1Command;
+        private ICommand _copyCommand;
 
         public MainWindowViewModel() 
                 : this(String.Empty, true) 
@@ -96,6 +97,16 @@ namespace Hashzone.ViewModels
             }
         }
 
+        public ICommand CopyCommand
+        {
+            get
+            {
+                if (_copyCommand == null)
+                    _copyCommand = new RelayCommand(CopyExecute);
+                return _copyCommand;
+            }
+        }
+
         private void MD5Execute()
         {
             UseMD5 = true;
@@ -108,6 +119,11 @@ namespace Hashzone.ViewModels
             UseSHA1 = true;
             UseMD5 = false;
             Status = "SHA1 is selected.";
+        }
+
+        private void CopyExecute()
+        {
+            Clipboard.SetText(Status);
         }
 
         public string Status

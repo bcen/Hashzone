@@ -19,7 +19,7 @@ namespace Hashzone.Util
             using (Stream stream = File.OpenRead(filePath))
                 hashFunc.ComputeHash(stream);
 
-            sha1 = BitConverter.ToString(hashFunc.Hash).ToLower().Replace("-", String.Empty);
+            sha1 = BitConverter.ToString(hashFunc.Hash).Replace("-", String.Empty).ToLower();
             hashFunc.Clear();
             hashFunc = null;
 

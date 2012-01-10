@@ -4,7 +4,7 @@
         Title="Hashzone" Height="240" Width="360" AllowDrop="{Binding Path=AllowDrop}" 
         Icon="/Hashzone;component/1325306667_Drop_Box.ico" WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize" Drop="FileDropEventHandler" Topmost="True">
-    
+
     <Grid>
         <Label Content="{Binding Path=Status}" HorizontalAlignment="Left" Margin="7,0,0,0" 
                Name="label1" Height="28" VerticalAlignment="Bottom" />
@@ -14,6 +14,8 @@
     
     <Window.ContextMenu>
         <ContextMenu Name="ctxMenu">
+            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}"/>
+            <Separator />
             <MenuItem Header="Hash Function">
                 <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
                 <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1, Mode=TwoWay}" Command="{Binding Path=SHA1Command}" />
