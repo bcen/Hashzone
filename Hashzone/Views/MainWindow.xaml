@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Hashzone.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Hashzone.ViewModels"
         Title="Hashzone" Height="240" Width="360" AllowDrop="{Binding Path=AllowDrop}" 
         Icon="/Hashzone;component/1325306667_Drop_Box.ico" WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize" Drop="FileDropEventHandler" Topmost="True">
@@ -14,6 +15,16 @@
     
     <Window.ContextMenu>
         <ContextMenu Name="ctxMenu">
+            <ContextMenu.DataContext>
+                <vm:ContextMenuViewModel />
+            </ContextMenu.DataContext>
+            
+            <MenuItem Header="Hash Function">
+                <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
+                <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1, Mode=TwoWay}" Command="{Binding Path=SHA1Command}" />
+            </MenuItem>
+            
+            <!--
             <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" />
             <MenuItem Header="Paste" />
             <Separator />
@@ -21,6 +32,7 @@
                 <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
                 <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1, Mode=TwoWay}" Command="{Binding Path=SHA1Command}" />
             </MenuItem>
+            -->
         </ContextMenu>
     </Window.ContextMenu>
     

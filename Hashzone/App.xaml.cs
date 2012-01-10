@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using Hashzone.Infrastructure;
 
 namespace Hashzone
 {
@@ -12,5 +13,11 @@ namespace Hashzone
     /// </summary>
     public partial class App : Application
     {
+        private static Messenger _messenger = new Messenger();
+        
+        public static Messenger Notification
+        {
+            get { return _messenger; }
+        }
     }
 }

@@ -63,8 +63,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\Messenger.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Util\HashUtil.cs" />
+    <Compile Include="ViewModels\ContextMenuViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

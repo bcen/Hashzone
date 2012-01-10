@@ -21,11 +21,8 @@ namespace Hashzone.ViewModels
         private bool _useMD5;
         private bool _useSHA1;
         private string _hashMessage;
-        private ICommand _md5Command;
-        private ICommand _sha1Command;
-        private ICommand _copyCommand;
 
-        public MainWindowViewModel() 
+        public MainWindowViewModel()
                 : this(String.Empty, true) 
         { }
 
@@ -40,8 +37,9 @@ namespace Hashzone.ViewModels
             _droppedFilePaths = filePaths;
             _useMD5 = false;
             _useSHA1 = true;
-            _md5Command = null;
-            _sha1Command = null;
+
+            App.Notification.Register("USE_MD5", UseMD5Callback);
+            App.Notification.Register("USE_SHA1", UseSHA1Callback);
         }
 
         public void HandleFileDropEvent(DragEventArgs e)
@@ -51,6 +49,16 @@ namespace Hashzone.ViewModels
                 _droppedFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
                 Thread t = new Thread(new ThreadStart(DoHashFile));
                 t.Start();
+            }
+            else if (e.Data.GetDataPresent(DataFormats.UnicodeText))
+            {
+                AllowDrop = false;
+                string hashName = _useMD5 ? "MD5" : "SHA1";
+                string message = HashUtil.HashString((string)e.Data.GetData(
+                                                     DataFormats.UnicodeText), hashName);
+                _hashMessage = message;
+                Status = hashName + ": " + message;
+                AllowDrop = true;
             }
             else
             {
@@ -64,7 +72,7 @@ namespace Hashzone.ViewModels
             {
                 AllowDrop = false;
                 Status = "Hashing file. . .";
-                string hashName = UseMD5 ? "MD5" : "SHA1";
+                string hashName = _useMD5 ? "MD5" : "SHA1";
                 string message = HashUtil.HashFile(_droppedFilePaths[0], hashName);
                 _hashMessage = message;
                 Status = hashName + ": " + message;
@@ -79,59 +87,18 @@ namespace Hashzone.ViewModels
             }
         }
 
-        public ICommand MD5Command
+        private void UseMD5Callback()
         {
-            get 
-            {
-                if (_md5Command == null)
-                    _md5Command = new RelayCommand(MD5Execute);
-                return _md5Command;
-            }
+            Console.WriteLine("UseMD5Callback");
+            _useMD5 = true;
+            _useSHA1 = false;
         }
 
-        public ICommand SHA1Command
+        private void UseSHA1Callback()
         {
-            get 
-            {
-                if (_sha1Command == null)
-                    _sha1Command = new RelayCommand(SHA1Execute);
-                return _sha1Command;
-            }
-        }
-
-        public ICommand CopyCommand
-        {
-            get
-            {
-                if (_copyCommand == null)
-                    _copyCommand = new RelayCommand(CopyExecute, CopyCanExecute);
-                return _copyCommand;
-            }
-        }
-
-        private void MD5Execute()
-        {
-            UseMD5 = true;
-            UseSHA1 = false;
-            Status = "MD5 is selected.";
-        }
-
-        private void SHA1Execute()
-        {
-            UseSHA1 = true;
-            UseMD5 = false;
-            Status = "SHA1 is selected.";
-        }
-
-        private void CopyExecute()
-        {
-            Clipboard.SetText(_hashMessage);
-        }
-
-        private bool CopyCanExecute()
-        {
-            if (_hashMessage == null || _hashMessage.Equals(String.Empty)) return false;
-            return true;
+            Console.WriteLine("UseSHA1Callback");
+            _useMD5 = false;
+            _useSHA1 = true;
         }
 
         public string Status
@@ -157,26 +124,6 @@ namespace Hashzone.ViewModels
                     _allowDrop = value;
                     NotifyPropertyChanged("AllowDrop");
                 }
-            }
-        }
-
-        public bool UseMD5
-        {
-            get { return _useMD5; }
-            set
-            {
-                _useMD5 = value;
-                NotifyPropertyChanged("UseMD5");
-            }
-        }
-
-        public bool UseSHA1
-        {
-            get { return _useSHA1; }
-            set
-            {
-                _useSHA1 = value;
-                NotifyPropertyChanged("UseSHA1");
             }
         }
     }
