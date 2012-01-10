@@ -8,11 +8,7 @@ namespace Hashzone.ViewModels
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
-        #region Events
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
 
         protected void NotifyPropertyChanged(String info)
         {

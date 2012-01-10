@@ -6,17 +6,17 @@
         ResizeMode="CanMinimize" Drop="FileDropEventHandler" Topmost="True">
     
     <Grid>
-        <Label Content="{Binding Path=Status}" HorizontalAlignment="Left" Margin="12,0,0,0" 
+        <Label Content="{Binding Path=Status}" HorizontalAlignment="Left" Margin="7,0,0,0" 
                Name="label1" Height="28" VerticalAlignment="Bottom" />
-        <Rectangle Height="175" HorizontalAlignment="Left" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="360" Fill="#FF263144" />
+        <Rectangle Height="177" HorizontalAlignment="Left" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="360" Fill="#FF263144" />
         <!-- Image Margin="141,71,152,85" Name="image1" Stretch="Fill" Source="/Hashzone;component/1325625412_help-and-support.png" /-->
     </Grid>
     
     <Window.ContextMenu>
         <ContextMenu Name="ctxMenu">
-            <MenuItem Header="Hash functions">
-                <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5}" Command="{Binding Path=MD5Command}"/>
-                <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1}" Command="{Binding Path=SHA1Command}"/>
+            <MenuItem Header="Hash Function">
+                <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
+                <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1, Mode=TwoWay}" Command="{Binding Path=SHA1Command}" />
             </MenuItem>
         </ContextMenu>
     </Window.ContextMenu>

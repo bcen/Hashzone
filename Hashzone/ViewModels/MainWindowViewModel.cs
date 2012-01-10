@@ -20,6 +20,8 @@ namespace Hashzone.ViewModels
         private string[] _droppedFilePaths;
         private bool _useMD5;
         private bool _useSHA1;
+        private ICommand _md5Command;
+        private ICommand _sha1Command;
 
         public MainWindowViewModel() 
                 : this(String.Empty, true) 
@@ -36,6 +38,8 @@ namespace Hashzone.ViewModels
             _droppedFilePaths = filePaths;
             _useMD5 = false;
             _useSHA1 = true;
+            _md5Command = null;
+            _sha1Command = null;
         }
 
         public void HandleFileDropEvent(DragEventArgs e)
@@ -58,8 +62,9 @@ namespace Hashzone.ViewModels
             {
                 AllowDrop = false;
                 Status = "Hashing file. . .";
-                Status = (UseMD5 ? "MD5: " : "SHA1: ") + HashUtil.HashFile(_droppedFilePaths[0],
-                                                                           UseMD5 ? "MD5" : "SHA1");
+                string hashName = UseMD5 ? "MD5" : "SHA1";
+                string message = HashUtil.HashFile(_droppedFilePaths[0], hashName);
+                Status = hashName + ": " + message;
             }
             catch (Exception ex)
             {
@@ -73,26 +78,36 @@ namespace Hashzone.ViewModels
 
         public ICommand MD5Command
         {
-            get { return new RelayCommand(MD5Execute); }
+            get 
+            {
+                if (_md5Command == null)
+                    _md5Command = new RelayCommand(MD5Execute);
+                return _md5Command;
+            }
         }
 
         public ICommand SHA1Command
         {
-            get { return new RelayCommand(SHA1Execute); }
+            get 
+            {
+                if (_sha1Command == null)
+                    _sha1Command = new RelayCommand(SHA1Execute);
+                return _sha1Command;
+            }
         }
 
-        void MD5Execute()
+        private void MD5Execute()
         {
             UseMD5 = true;
             UseSHA1 = false;
-            Status = "MD5 selected.";
+            Status = "MD5 is selected.";
         }
 
-        void SHA1Execute()
+        private void SHA1Execute()
         {
-            UseMD5 = false;
             UseSHA1 = true;
-            Status = "SHA1 selected.";
+            UseMD5 = false;
+            Status = "SHA1 is selected.";
         }
 
         public string Status

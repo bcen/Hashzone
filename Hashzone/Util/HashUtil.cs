@@ -16,7 +16,7 @@ namespace Hashzone.Util
             string sha1 = String.Empty;
             HashAlgorithm hashFunc = HashAlgorithm.Create(hashName);
 
-            using (Stream stream = new BufferedStream(File.OpenRead(filePath)))
+            using (Stream stream = File.OpenRead(filePath))
                 hashFunc.ComputeHash(stream);
 
             sha1 = BitConverter.ToString(hashFunc.Hash).ToLower().Replace("-", String.Empty);
