@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -17,6 +18,7 @@ namespace Hashzone.ViewModels
         private ICommand _md5Command;
         private ICommand _sha1Command;
         private ICommand _copyCommand;
+        public ObservableCollection<HashFunction> HashFuncList { get; set; }
 
         public ContextMenuViewModel()
         {
@@ -30,6 +32,10 @@ namespace Hashzone.ViewModels
             {
                 _hashMessage = hashMessage;
             }));
+
+            HashFuncList = new ObservableCollection<HashFunction>();
+            HashFuncList.Add(new HashFunction("MD5", "MD5"));
+            HashFuncList.Add(new HashFunction("SHA-1", "SHA1"));
         }
 
         public ICommand MD5Command

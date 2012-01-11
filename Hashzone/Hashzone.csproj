@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\HashFunction.cs" />
     <Compile Include="Infrastructure\Messenger.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Util\HashUtil.cs" />

@@ -23,20 +23,15 @@
             <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" />
             <Separator />
             
-            <MenuItem Header="Hash Function">
-                <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
-                <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1, Mode=TwoWay}" Command="{Binding Path=SHA1Command}" />
+            <MenuItem Header="Hash Function" ItemsSource="{Binding Path=HashFuncList}">
+                <MenuItem.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="MenuItem.IsCheckable" Value="True" />
+                        <Setter Property="MenuItem.Header" Value="{Binding Path=DisplayName}" />
+                        <Setter Property="MenuItem.IsChecked" Value="True" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
             </MenuItem>
-            
-            <!--
-            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" />
-            <MenuItem Header="Paste" />
-            <Separator />
-            <MenuItem Header="Hash Function">
-                <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
-                <MenuItem Header="SHA1" IsCheckable="True" IsChecked="{Binding Path=UseSHA1, Mode=TwoWay}" Command="{Binding Path=SHA1Command}" />
-            </MenuItem>
-            -->
         </ContextMenu>
     </Window.ContextMenu>
     
