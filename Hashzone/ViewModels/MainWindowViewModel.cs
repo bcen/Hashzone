@@ -38,8 +38,33 @@ namespace Hashzone.ViewModels
             _useMD5 = false;
             _useSHA1 = true;
 
-            App.Notification.Register("USE_MD5", UseMD5Callback);
-            App.Notification.Register("USE_SHA1", UseSHA1Callback);
+            SetupNotification();
+        }
+
+        private void SetupNotification()
+        {
+            App.Notification.Register("USE_MD5", () =>
+            {
+                _useMD5 = true;
+                _useSHA1 = false;
+            });
+            App.Notification.Register("USE_SHA1", () =>
+            {
+                _useMD5 = false;
+                _useSHA1 = true;
+            });
+            App.Notification.Register("COPY_CAN_EXE", () =>
+            {
+                bool hasHash = !String.IsNullOrEmpty(_hashMessage);
+                App.Notification.NotifyColleagues("CAN_COPY", hasHash);
+                if (hasHash)
+                    App.Notification.NotifyColleagues("HASH_MESSAGE", _hashMessage);
+            });
+        }
+
+        private void CopyCommandCallback(bool canExecute)
+        {
+            Console.WriteLine("CopyCommandCallback {0}", canExecute.ToString());
         }
 
         public void HandleFileDropEvent(DragEventArgs e)
@@ -59,6 +84,8 @@ namespace Hashzone.ViewModels
                 _hashMessage = message;
                 Status = hashName + ": " + message;
                 AllowDrop = true;
+
+                App.Notification.NotifyColleagues("HASH_MSG");
             }
             else
             {
@@ -85,20 +112,6 @@ namespace Hashzone.ViewModels
             {
                 AllowDrop = true;
             }
-        }
-
-        private void UseMD5Callback()
-        {
-            Console.WriteLine("UseMD5Callback");
-            _useMD5 = true;
-            _useSHA1 = false;
-        }
-
-        private void UseSHA1Callback()
-        {
-            Console.WriteLine("UseSHA1Callback");
-            _useMD5 = false;
-            _useSHA1 = true;
         }
 
         public string Status

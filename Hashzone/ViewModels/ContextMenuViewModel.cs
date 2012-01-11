@@ -12,6 +12,8 @@ namespace Hashzone.ViewModels
     {
         private bool _useMD5;
         private bool _useSHA1;
+        private bool _canCopy;
+        private string _hashMessage;
         private ICommand _md5Command;
         private ICommand _sha1Command;
         private ICommand _copyCommand;
@@ -19,6 +21,15 @@ namespace Hashzone.ViewModels
         public ContextMenuViewModel()
         {
             _useSHA1 = true;
+
+            App.Notification.Register("CAN_COPY", (Action<bool>)(canCopy =>
+            {
+                _canCopy = canCopy;
+            }));
+            App.Notification.Register("HASH_MESSAGE", (Action<string>)(hashMessage =>
+            {
+                _hashMessage = hashMessage;
+            }));
         }
 
         public ICommand MD5Command
@@ -69,13 +80,13 @@ namespace Hashzone.ViewModels
 
         private void CopyExecute()
         {
-
+            Clipboard.SetText(_hashMessage);
         }
 
         private bool CopyCanExecute()
         {
-
-            return true;
+            App.Notification.NotifyColleagues("COPY_CAN_EXE");
+            return _canCopy;
         }
 
         public bool UseMD5

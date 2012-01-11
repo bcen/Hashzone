@@ -10,6 +10,7 @@
         <Label Content="{Binding Path=Status}" HorizontalAlignment="Left" Margin="7,0,0,0" 
                Name="label1" Height="28" VerticalAlignment="Bottom" />
         <Rectangle Height="177" HorizontalAlignment="Left" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="360" Fill="#FF263144" />
+
         <!-- Image Margin="141,71,152,85" Name="image1" Stretch="Fill" Source="/Hashzone;component/1325625412_help-and-support.png" /-->
     </Grid>
     
@@ -18,6 +19,9 @@
             <ContextMenu.DataContext>
                 <vm:ContextMenuViewModel />
             </ContextMenu.DataContext>
+            
+            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" />
+            <Separator />
             
             <MenuItem Header="Hash Function">
                 <MenuItem Header="MD5" IsCheckable="True" IsChecked="{Binding Path=UseMD5, Mode=TwoWay}"  Command="{Binding Path=MD5Command}" />
