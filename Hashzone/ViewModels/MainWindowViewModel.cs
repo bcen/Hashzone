@@ -77,18 +77,20 @@ namespace Hashzone.ViewModels
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 _droppedFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
-                Thread t = new Thread(new ThreadStart(DoHashFile));
-                t.Start();
+                //Thread t = new Thread(new ThreadStart(DoHashFile));
+                //t.Start();
+                DoHash(_droppedFilePaths, DataFormats.FileDrop);
             }
             else if (e.Data.GetDataPresent(DataFormats.UnicodeText))
             {
-                AllowDrop = false;
-                string message = HashUtil.HashString((string)e.Data.GetData(
-                                                     DataFormats.UnicodeText), _hashName);
-                _hashMessage = message;
-                Status = _hashName + ": " + message;
-                AllowDrop = true;
-                App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
+                //AllowDrop = false;
+                //string message = HashUtil.HashString((string)e.Data.GetData(
+                //                                     DataFormats.UnicodeText), _hashName);
+                //_hashMessage = message;
+                //Status = _hashName + ": " + message;
+                //AllowDrop = true;
+                //App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
+                DoHash(e.Data.GetData(DataFormats.UnicodeText), DataFormats.UnicodeText);
             }
             else
             {
@@ -135,6 +137,39 @@ namespace Hashzone.ViewModels
             {
                 AllowDrop = true;
             }
+        }
+
+        private void DoHash(object data, string format)
+        {
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                try
+                {
+                    AllowDrop = false;
+                    Status = "Hashing. . .";
+                    string message = String.Empty;
+                    if (format.Equals(DataFormats.FileDrop))
+                    {
+                        message = HashUtil.HashFile(((string[])data)[0], _hashName);
+                    }
+                    else if (format.Equals(DataFormats.UnicodeText))
+                    {
+                        message = HashUtil.HashString((string)data, _hashName);
+                    }
+                    _hashMessage = message;
+                    Status = _hashName + ": " + message;
+                    App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
+                }
+                catch (Exception e)
+                {
+                    Status = "Unable to hash the file.";
+                }
+                finally
+                {
+                    AllowDrop = true;
+                }
+            }));
+            t.Start();
         }
 
         #endregion // Private Method
