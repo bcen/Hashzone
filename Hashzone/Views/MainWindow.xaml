@@ -2,14 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Hashzone.ViewModels"
-        Title="Hashzone" Height="240" Width="360" AllowDrop="{Binding Path=AllowDrop}" 
+        Title="Hashzone" Height="251" Width="415" AllowDrop="{Binding Path=AllowDrop}" 
         Icon="/Hashzone;component/1325306667_Drop_Box.ico" WindowStartupLocation="CenterScreen" 
-        ResizeMode="CanMinimize" Drop="FileDropEventHandler" Topmost="True">
+        Drop="FileDropEventHandler" Topmost="True">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
 
     <Grid>
-        <Label Content="{Binding Path=Status}" HorizontalAlignment="Left" Margin="7,0,0,0" 
-               Name="label1" Height="28" VerticalAlignment="Bottom" />
-        <Rectangle Height="177" HorizontalAlignment="Left" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="360" Fill="#FF263144" />
+        <Rectangle Name="rectangle1" Stroke="Black" Fill="#FF263144" Margin="0,0,0,12" />
+        <StatusBar Name="statusBar1" Height="23" VerticalAlignment="Bottom" Background="White">
+            <TextBlock Text="{Binding Path=Status}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path=Status}"/>
+        </StatusBar>
     </Grid>
     
     <Window.ContextMenu>
@@ -17,11 +22,12 @@
             <ContextMenu.DataContext>
                 <vm:ContextMenuViewModel />
             </ContextMenu.DataContext>
-            
-            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" />
+
+            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" ToolTip="{Binding Path=MessageToCopy}"/>
+            <MenuItem Header="Paste to compare" Command="{Binding Path=PasteCommand}" ToolTip="{Binding Path=MessageToPaste}"/>
             <Separator />
 
-            <MenuItem Header="Hash Function" ItemsSource="{Binding Path=HashFuncMenuItemList}">
+            <MenuItem Header="Hash Function" ItemsSource="{Binding Path=HashFuncMenuItemList, Mode=OneWay}">
                 <MenuItem.ItemContainerStyle>
                     <Style>
                         <Setter Property="MenuItem.IsCheckable" Value="True" />

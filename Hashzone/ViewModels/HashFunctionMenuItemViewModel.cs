@@ -56,7 +56,13 @@ namespace Hashzone.ViewModels
             get
             {
                 if (_hashFuncChangeCommand == null)
-                    _hashFuncChangeCommand = new RelayCommand(HashFuncChangeExecute);
+                    _hashFuncChangeCommand = new RelayCommand(() =>
+                    {
+                        App.Notification.NotifyColleagues("HashFuncChangeExecute");
+                        App.Notification.NotifyColleagues("HashFuncChanged", Name);
+                        IsChecked = true;
+                    });
+
                 return _hashFuncChangeCommand;
             }
         }
@@ -74,18 +80,10 @@ namespace Hashzone.ViewModels
             _displayName = displayName;
             _name = name;
             _isChecked = isChecked;
+            if (_isChecked)
+                App.Notification.NotifyColleagues("HashFuncChanged", Name);
         }
 
         #endregion // Constructor
-
-        #region Private Method
-
-        private void HashFuncChangeExecute()
-        {
-            App.Notification.NotifyColleagues("HashFuncChangeExecute", Name);
-            IsChecked = true;
-        }
-
-        #endregion // Private Method
     }
 }

@@ -12,8 +12,6 @@ namespace Hashzone.Views
         public MainWindow()
         {
             InitializeComponent();
-            // Poor man's dependency injection
-            DataContext = new MainWindowViewModel("Drag 'n' Drop file into the hash zone.", true);
         }
 
         private void FileDropEventHandler(object sender, DragEventArgs e)

@@ -50,12 +50,12 @@ namespace Hashzone.ViewModels
         #region Constructor
 
         public MainWindowViewModel()
-                : this(String.Empty, true) 
+            : this("Drag 'n' Drop file into the hash zone.", true) 
         { 
         }
 
         public MainWindowViewModel(string status, bool allowDrop)
-                : this(status, allowDrop, null)
+            : this(status, allowDrop, null)
         { 
         }
 
@@ -88,6 +88,7 @@ namespace Hashzone.ViewModels
                 _hashMessage = message;
                 Status = _hashName + ": " + message;
                 AllowDrop = true;
+                App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
             }
             else
             {
@@ -101,9 +102,17 @@ namespace Hashzone.ViewModels
 
         private void SetupNotification()
         {
-            App.Notification.Register("HashFuncChangeExecute", (Action<string>)(name =>
+            App.Notification.Register("HashFuncChanged", (Action<string>)(name =>
             {
                 _hashName = name;
+            }));
+
+            App.Notification.Register("PasteExecuted", (Action<string>)(hashMsg =>
+            {
+                if (hashMsg.Equals(_hashMessage))
+                    Status = "Valid";
+                else
+                    Status = "Invalid";
             }));
         }
 
@@ -116,6 +125,7 @@ namespace Hashzone.ViewModels
                 string message = HashUtil.HashFile(_droppedFilePaths[0], _hashName);
                 _hashMessage = message;
                 Status = _hashName + ": " + message;
+                App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
             }
             catch (Exception ex)
             {

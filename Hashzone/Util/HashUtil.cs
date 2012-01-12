@@ -14,6 +14,9 @@ namespace Hashzone.Util
 
         public static string HashFile(string filePath, string hashName)
         {
+            if (String.IsNullOrEmpty(hashName))
+                throw new ArgumentException("hashName cannot be null or empty");
+
             string hashmsg = String.Empty;
             HashAlgorithm hashFunc = HashAlgorithm.Create(hashName);
 
@@ -29,6 +32,9 @@ namespace Hashzone.Util
 
         public static string HashString(string src, string hashName)
         {
+            if (String.IsNullOrEmpty(hashName))
+                throw new ArgumentException("hashName cannot be null or empty");
+
             string hashmsg = String.Empty;
             
             using (HashAlgorithm hashFunc = HashAlgorithm.Create(hashName))
