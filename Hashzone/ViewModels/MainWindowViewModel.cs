@@ -11,11 +11,24 @@ namespace Hashzone.ViewModels
 
         private string[] _droppedFilePaths;
         private string _hashMessage;
-        private string _hashName;
 
         #endregion // Declaration
 
         #region Property
+
+        private string _hashName;
+        public string HashName
+        {
+            get { return _hashName; }
+            set
+            {
+                if (_hashName == value)
+                    return;
+
+                _hashName = value;
+                NotifyPropertyChanged("HashName");
+            }
+        }
 
         private string _status;
         public string Status
@@ -23,11 +36,11 @@ namespace Hashzone.ViewModels
             get { return _status; }
             set
             {
-                if (_status != value && !_status.Equals(value))
-                {
-                    _status = value;
-                    NotifyPropertyChanged("Status");
-                }
+                if (_status == value)
+                    return;
+
+                _status = value;
+                NotifyPropertyChanged("Status");
             }
         }
 
@@ -37,11 +50,11 @@ namespace Hashzone.ViewModels
             get { return _allowDrop; }
             set
             {
-                if (_allowDrop != value && !_allowDrop.Equals(value))
-                {
-                    _allowDrop = value;
-                    NotifyPropertyChanged("AllowDrop");
-                }
+                if (_allowDrop == value)
+                    return;
+
+                _allowDrop = value;
+                NotifyPropertyChanged("AllowDrop");
             }
         }
 
@@ -106,7 +119,7 @@ namespace Hashzone.ViewModels
         {
             App.Notification.Register("HashFuncChanged", (Action<string>)(name =>
             {
-                _hashName = name;
+                HashName = name;
             }));
 
             App.Notification.Register("PasteExecuted", (Action<string>)(hashMsg =>

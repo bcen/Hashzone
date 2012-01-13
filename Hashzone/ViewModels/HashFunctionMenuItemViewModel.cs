@@ -14,11 +14,11 @@ namespace Hashzone.ViewModels
             get { return _displayName; }
             set
             {
-                if (_displayName != value && !_displayName.Equals(value))
-                {
-                    _displayName = value;
-                    NotifyPropertyChanged("DisplayName");
-                }
+                if (_displayName == value)
+                    return;
+
+                _displayName = value;
+                NotifyPropertyChanged("DisplayName");
             }
         }
 
@@ -28,11 +28,11 @@ namespace Hashzone.ViewModels
             get { return _name; }
             set
             {
-                if (_name != value && !_name.Equals(value))
-                {
-                    _name = value;
-                    NotifyPropertyChanged("Name");
-                }
+                if (_name == value)
+                    return;
+
+                _name = value;
+                NotifyPropertyChanged("Name");
             }
         }
 
@@ -42,11 +42,11 @@ namespace Hashzone.ViewModels
             get { return _isChecked; }
             set
             {
-                if (_isChecked != value && !_isChecked.Equals(value))
-                {
-                    _isChecked = value;
-                    NotifyPropertyChanged("IsChecked");
-                }
+                if (_isChecked == value)
+                    return;
+
+                _isChecked = value;
+                NotifyPropertyChanged("IsChecked");
             }
         }
 
@@ -71,7 +71,8 @@ namespace Hashzone.ViewModels
 
         #region Constructor
 
-        public HashFunctionMenuItemViewModel() : this(String.Empty, String.Empty, false)
+        public HashFunctionMenuItemViewModel()
+            : this(String.Empty, String.Empty, false)
         {
         }
 

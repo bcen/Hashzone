@@ -26,11 +26,11 @@ namespace Hashzone.ViewModels
             get { return _messageToCopy; }
             set
             {
-                if (_messageToCopy != value && !_messageToCopy.Equals(value))
-                {
-                    _messageToCopy = value;
-                    NotifyPropertyChanged("MessageToCopy");
-                }
+                if (_messageToCopy == value)
+                    return;
+
+                _messageToCopy = value;
+                NotifyPropertyChanged("MessageToCopy");
             }
         }
 
@@ -40,11 +40,11 @@ namespace Hashzone.ViewModels
             get { return _messageToPaste; }
             set
             {
-                if (_messageToPaste != value && !_messageToPaste.Equals(value))
-                {
-                    _messageToPaste = value;
-                    NotifyPropertyChanged("MessageToPaste");
-                }
+                if (_messageToPaste == value)
+                    return;
+
+                _messageToPaste = value;
+                NotifyPropertyChanged("MessageToPaste");
             }
         }
 
@@ -89,7 +89,9 @@ namespace Hashzone.ViewModels
 
         private ObservableCollection<HashFunctionMenuItemViewModel> _hashFuncMenuItemList;
         public ObservableCollection<HashFunctionMenuItemViewModel> HashFuncMenuItemList
-        { get { return _hashFuncMenuItemList; } }
+        {
+            get { return _hashFuncMenuItemList; } 
+        }
 
         #endregion // Property
 
