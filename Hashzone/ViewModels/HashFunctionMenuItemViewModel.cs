@@ -6,9 +6,42 @@ namespace Hashzone.ViewModels
 {
     public class HashFunctionMenuItemViewModel : ViewModelBase
     {
-        #region Property
+        // Private Properties///////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         private string _displayName;
+        private string _name;
+        private bool _isChecked;
+        private ICommand _hashFuncChangeCommand;
+
+        // Private Properties///////////////////////////////////////////////////////////////////////
+
+
+
+        // Constructors/////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////   
+
+        public HashFunctionMenuItemViewModel()
+            : this(String.Empty, String.Empty, false)
+        {
+        }
+
+        public HashFunctionMenuItemViewModel(string displayName, string name, bool isChecked)
+        {
+            _displayName = displayName;
+            _name = name;
+            _isChecked = isChecked;
+            if (_isChecked)
+                App.Notification.NotifyColleagues("HashFuncChanged", Name);
+        }
+
+        // Constructors/////////////////////////////////////////////////////////////////////////////
+
+
+
+        // Properties///////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
         public string DisplayName
         {
             get { return _displayName; }
@@ -22,7 +55,6 @@ namespace Hashzone.ViewModels
             }
         }
 
-        private string _name;
         public string Name
         {
             get { return _name; }
@@ -36,7 +68,6 @@ namespace Hashzone.ViewModels
             }
         }
 
-        private bool _isChecked;
         public bool IsChecked
         {
             get { return _isChecked; }
@@ -50,7 +81,6 @@ namespace Hashzone.ViewModels
             }
         }
 
-        private ICommand _hashFuncChangeCommand;
         public ICommand HashFuncChangeCommand
         {
             get
@@ -67,24 +97,6 @@ namespace Hashzone.ViewModels
             }
         }
 
-        #endregion // Property
-
-        #region Constructor
-
-        public HashFunctionMenuItemViewModel()
-            : this(String.Empty, String.Empty, false)
-        {
-        }
-
-        public HashFunctionMenuItemViewModel(string displayName, string name, bool isChecked)
-        {
-            _displayName = displayName;
-            _name = name;
-            _isChecked = isChecked;
-            if (_isChecked)
-                App.Notification.NotifyColleagues("HashFuncChanged", Name);
-        }
-
-        #endregion // Constructor
+        // Properties///////////////////////////////////////////////////////////////////////////////
     }
 }
