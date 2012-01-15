@@ -18,9 +18,9 @@ namespace Hashzone.ViewModels
 
         #endregion // Declaration
 
+
         #region Property
 
-        private string _messageToCopy;
         public string MessageToCopy
         {
             get { return _messageToCopy; }
@@ -33,8 +33,8 @@ namespace Hashzone.ViewModels
                 NotifyPropertyChanged("MessageToCopy");
             }
         }
+        private string _messageToCopy;
 
-        private string _messageToPaste;
         public string MessageToPaste
         {
             get { return _messageToPaste; }
@@ -47,8 +47,8 @@ namespace Hashzone.ViewModels
                 NotifyPropertyChanged("MessageToPaste");
             }
         }
+        private string _messageToPaste;
 
-        private ICommand _copyCommand;
         /// <summary>
         /// Copy command for "Copying" the status text.
         /// </summary>
@@ -65,14 +65,15 @@ namespace Hashzone.ViewModels
                 return _copyCommand;
             }
         }
+        private ICommand _copyCommand;
 
-        private ICommand _pasteCommand;
         public ICommand PasteCommand
         {
             get
             {
                 string hashMsg = String.Empty;
                 if (_pasteCommand == null)
+                {
                     _pasteCommand = new RelayCommand(() =>
                     {
                         App.Notification.NotifyColleagues("PasteExecuted", hashMsg);
@@ -82,18 +83,21 @@ namespace Hashzone.ViewModels
                         MessageToPaste = hashMsg;
                         return !String.IsNullOrEmpty(hashMsg);
                     });
+                }
 
                 return _pasteCommand;
             }
         }
+        private ICommand _pasteCommand;
 
-        private ObservableCollection<HashFunctionMenuItemViewModel> _hashFuncMenuItemList;
         public ObservableCollection<HashFunctionMenuItemViewModel> HashFuncMenuItemList
         {
             get { return _hashFuncMenuItemList; } 
         }
+        private ObservableCollection<HashFunctionMenuItemViewModel> _hashFuncMenuItemList;
 
         #endregion // Property
+
 
         #region Constructor
 
@@ -119,7 +123,8 @@ namespace Hashzone.ViewModels
             SetupNotification();
         }
 
-        #endregion
+        #endregion // Constructor
+
 
         #region Private Method
 
@@ -138,6 +143,6 @@ namespace Hashzone.ViewModels
             }));
         }
 
-        #endregion
+        #endregion // Private Method
     }
 }
