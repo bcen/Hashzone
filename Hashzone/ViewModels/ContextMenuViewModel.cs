@@ -1,26 +1,81 @@
 ﻿using System;
-using System.Text;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 using Hashzone.Infrastructure;
 
 namespace Hashzone.ViewModels
 {
     /// <summary>
-    /// View model for the context menu on main window.
+    /// The view model for the context menu.
     /// </summary>
     public class ContextMenuViewModel : ViewModelBase
     {
-        #region Declaration
+        private string _messageToCopy;
+        private string _messageToPaste;
+        private ICommand _copyCommand;
+        private ICommand _pasteCommand;
+        private ObservableCollection<HashFunctionMenuItemViewModel> _hashFuncMenuItemList;
 
         private bool _canCopy;
 
-        #endregion // Declaration
+        //Constructors//////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public ContextMenuViewModel()
+            : this(new ObservableCollection<HashFunctionMenuItemViewModel>())
+        {
+        }
 
-        #region Property
+        /// <summary>
+        /// Initializes a new instance of the ContextMenuViewModel class with a list of 
+        /// hash function menu items.
+        /// </summary>
+        /// <param name="hashFuncMenuItemList"></param>
+        public ContextMenuViewModel(
+            ObservableCollection<HashFunctionMenuItemViewModel> hashFuncMenuItemList)
+        {
+            _messageToCopy = String.Empty;
+            _messageToPaste = String.Empty;
 
+            _hashFuncMenuItemList = hashFuncMenuItemList;
+            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("MD5", "MD5", true));
+            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-1", "SHA1", false));
+            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-256 Managed", "SHA256",
+                                                                        false));
+            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-384 Managed", "SHA384",
+                                                                        false));
+
+            SetupNotification();
+        }
+
+        //Private Methods///////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void SetupNotification()
+        {
+            App.Notification.Register("HashFuncChangeExecute", () =>
+            {
+                foreach (HashFunctionMenuItemViewModel h in _hashFuncMenuItemList)
+                    h.IsChecked = false;
+            });
+
+            App.Notification.Register("CanCopyMessage", (Action<string>)(msg =>
+            {
+                MessageToCopy = msg;
+                _canCopy = true;
+            }));
+        }
+
+        //Properties////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Gets or Sets the message to be copied.
+        /// </summary>
         public string MessageToCopy
         {
             get { return _messageToCopy; }
@@ -33,8 +88,10 @@ namespace Hashzone.ViewModels
                 NotifyPropertyChanged("MessageToCopy");
             }
         }
-        private string _messageToCopy;
 
+        /// <summary>
+        /// Gets or Sets the message to be pasted.
+        /// </summary>
         public string MessageToPaste
         {
             get { return _messageToPaste; }
@@ -47,10 +104,9 @@ namespace Hashzone.ViewModels
                 NotifyPropertyChanged("MessageToPaste");
             }
         }
-        private string _messageToPaste;
 
         /// <summary>
-        /// Copy command for "Copying" the status text.
+        /// Returns a copy command.
         /// </summary>
         public ICommand CopyCommand
         {
@@ -65,8 +121,10 @@ namespace Hashzone.ViewModels
                 return _copyCommand;
             }
         }
-        private ICommand _copyCommand;
 
+        /// <summary>
+        /// Returns a paste command.
+        /// </summary>
         public ICommand PasteCommand
         {
             get
@@ -88,61 +146,13 @@ namespace Hashzone.ViewModels
                 return _pasteCommand;
             }
         }
-        private ICommand _pasteCommand;
 
+        /// <summary>
+        /// Returns a observable collection of hash function context menu item.
+        /// </summary>
         public ObservableCollection<HashFunctionMenuItemViewModel> HashFuncMenuItemList
         {
             get { return _hashFuncMenuItemList; } 
         }
-        private ObservableCollection<HashFunctionMenuItemViewModel> _hashFuncMenuItemList;
-
-        #endregion // Property
-
-
-        #region Constructor
-
-        public ContextMenuViewModel()
-            : this(new ObservableCollection<HashFunctionMenuItemViewModel>())
-        {
-        }
-
-        public ContextMenuViewModel(
-            ObservableCollection<HashFunctionMenuItemViewModel> hashFuncMenuItemList)
-        {
-            _messageToCopy = String.Empty;
-            _messageToPaste = String.Empty;
-
-            _hashFuncMenuItemList = hashFuncMenuItemList;
-            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("MD5", "MD5", true));
-            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-1", "SHA1", false));
-            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-256 Managed", "SHA256", 
-                                                                        false));
-            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-384 Managed", "SHA384",
-                                                                        false));
-
-            SetupNotification();
-        }
-
-        #endregion // Constructor
-
-
-        #region Private Method
-
-        private void SetupNotification()
-        {
-            App.Notification.Register("HashFuncChangeExecute", () =>
-            {
-                foreach (HashFunctionMenuItemViewModel h in _hashFuncMenuItemList)
-                    h.IsChecked = false;
-            });
-
-            App.Notification.Register("CanCopyMessage", (Action<string>)(msg =>
-            {
-                MessageToCopy = msg;
-                _canCopy = true;
-            }));
-        }
-
-        #endregion // Private Method
     }
 }
