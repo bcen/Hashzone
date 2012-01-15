@@ -2,9 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Hashzone.ViewModels"
+        xmlns:v="clr-namespace:Hashzone.Views"
         Title="Hashzone" Height="251" Width="415" AllowDrop="{Binding Path=AllowDrop}" 
         Icon="/Hashzone;component/1325306667_Drop_Box.ico" WindowStartupLocation="CenterScreen" 
-        Drop="FileDropEventHandler" Topmost="True">
+        Drop="FileDropEventHandler" Topmost="True" ContextMenu="{StaticResource mainContextMenu}">
 
   <Window.DataContext>
     <vm:MainWindowViewModel />
@@ -17,31 +18,5 @@
                  ToolTip="{Binding Path=Status}"/>
     </StatusBar>
   </Grid>
-
-  <Window.ContextMenu>
-    <ContextMenu Name="ctxMenu">
-      <ContextMenu.DataContext>
-        <vm:ContextMenuViewModel />
-      </ContextMenu.DataContext>
-
-      <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" 
-                ToolTip="{Binding Path=MessageToCopy}"/>
-      <MenuItem Header="Paste to compare" Command="{Binding Path=PasteCommand}" 
-                ToolTip="{Binding Path=MessageToPaste}"/>
-      <Separator />
-
-      <MenuItem Header="Hash Function" ItemsSource="{Binding Path=HashFuncMenuItemList, 
-                Mode=OneWay}">
-        <MenuItem.ItemContainerStyle>
-          <Style>
-            <Setter Property="MenuItem.IsCheckable" Value="True" />
-            <Setter Property="MenuItem.Header" Value="{Binding Path=DisplayName}" />
-            <Setter Property="MenuItem.IsChecked" Value="{Binding Path=IsChecked, Mode=TwoWay}" />
-            <Setter Property="MenuItem.Command" Value="{Binding Path=HashFuncChangeCommand}" />
-          </Style>
-        </MenuItem.ItemContainerStyle>
-      </MenuItem>
-    </ContextMenu>
-  </Window.ContextMenu>
 
 </Window>

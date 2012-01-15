@@ -1,8 +1,35 @@
 ﻿<Application x:Class="Hashzone.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Hashzone.ViewModels"
              StartupUri="Views/MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
+  
+  <Application.Resources>
+    
+    <ContextMenu x:Key="mainContextMenu">
+      <ContextMenu.DataContext>
+        <vm:ContextMenuViewModel />
+      </ContextMenu.DataContext>
+
+      <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" 
+                ToolTip="{Binding Path=MessageToCopy}"/>
+      <MenuItem Header="Paste to compare" Command="{Binding Path=PasteCommand}" 
+                ToolTip="{Binding Path=MessageToPaste}"/>
+      <Separator />
+
+      <MenuItem Header="Hash Function" ItemsSource="{Binding Path=HashFuncMenuItemList, 
+                Mode=OneWay}">
+        <MenuItem.ItemContainerStyle>
+          <Style>
+            <Setter Property="MenuItem.IsCheckable" Value="True" />
+            <Setter Property="MenuItem.Header" Value="{Binding Path=DisplayName}" />
+            <Setter Property="MenuItem.IsChecked" Value="{Binding Path=IsChecked, Mode=TwoWay}" />
+            <Setter Property="MenuItem.Command" Value="{Binding Path=HashFuncChangeCommand}" />
+          </Style>
+        </MenuItem.ItemContainerStyle>
+      </MenuItem>
+    </ContextMenu>
+    
+  </Application.Resources>
+  
 </Application>
