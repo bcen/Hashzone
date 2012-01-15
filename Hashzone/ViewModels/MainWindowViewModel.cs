@@ -7,69 +7,31 @@ namespace Hashzone.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        #region Declaration
+        // Private Properties///////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        private string _hashName;
+        private string _status;
+        private bool _allowDrop = true;
 
         private string[] _droppedFilePaths;
         private string _hashMessage;
 
-        #endregion // Declaration
+        // Private Properties///////////////////////////////////////////////////////////////////////
 
-        #region Property
 
-        private string _hashName;
-        public string HashName
-        {
-            get { return _hashName; }
-            set
-            {
-                if (_hashName == value)
-                    return;
 
-                _hashName = value;
-                NotifyPropertyChanged("HashName");
-            }
-        }
-
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set
-            {
-                if (_status == value)
-                    return;
-
-                _status = value;
-                NotifyPropertyChanged("Status");
-            }
-        }
-
-        private bool _allowDrop = true;
-        public bool AllowDrop
-        {
-            get { return _allowDrop; }
-            set
-            {
-                if (_allowDrop == value)
-                    return;
-
-                _allowDrop = value;
-                NotifyPropertyChanged("AllowDrop");
-            }
-        }
-
-        #endregion // Property
-
-        #region Constructor
+        // Constructors/////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         public MainWindowViewModel()
-            : this("Drag 'n' Drop file into the hash zone.", true) 
-        { 
+            : this("Drag 'n' Drop file into the hash zone.", true)
+        {
         }
 
         public MainWindowViewModel(string status, bool allowDrop)
             : this(status, allowDrop, null)
-        { 
+        {
         }
 
         public MainWindowViewModel(string status, bool allowDrop, string[] filePaths)
@@ -81,9 +43,12 @@ namespace Hashzone.ViewModels
             SetupNotification();
         }
 
-        #endregion // Constructor
+        // Constructors/////////////////////////////////////////////////////////////////////////////
 
-        #region Public Method
+
+
+        // Public///////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         public void HandleFileDropEvent(DragEventArgs e)
         {
@@ -111,9 +76,12 @@ namespace Hashzone.ViewModels
             }
         }
 
-        #endregion // Public Method
+        // Public///////////////////////////////////////////////////////////////////////////////////
 
-        #region Private Method
+
+
+        // Private//////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
 
         private void SetupNotification()
         {
@@ -185,6 +153,52 @@ namespace Hashzone.ViewModels
             t.Start();
         }
 
-        #endregion // Private Method
+        // Private//////////////////////////////////////////////////////////////////////////////////
+
+
+
+        // Properties///////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        public string HashName
+        {
+            get { return _hashName; }
+            set
+            {
+                if (_hashName == value)
+                    return;
+
+                _hashName = value;
+                NotifyPropertyChanged("HashName");
+            }
+        }
+
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                if (_status == value)
+                    return;
+
+                _status = value;
+                NotifyPropertyChanged("Status");
+            }
+        }
+
+        public bool AllowDrop
+        {
+            get { return _allowDrop; }
+            set
+            {
+                if (_allowDrop == value)
+                    return;
+
+                _allowDrop = value;
+                NotifyPropertyChanged("AllowDrop");
+            }
+        }
+
+        // Properties///////////////////////////////////////////////////////////////////////////////
     }
 }
