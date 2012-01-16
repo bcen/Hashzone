@@ -5,9 +5,12 @@ using Hashzone.Util;
 
 namespace Hashzone.ViewModels
 {
+    /// <summary>
+    /// Main window's view model
+    /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
-        // Private Properties///////////////////////////////////////////////////////////////////////
+        // Private Properties //////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         private string _hashName;
@@ -17,11 +20,11 @@ namespace Hashzone.ViewModels
         private string[] _droppedFilePaths;
         private string _hashMessage;
 
-        // Private Properties///////////////////////////////////////////////////////////////////////
+        // Private Properties //////////////////////////////////////////////////////////////////////
 
 
 
-        // Constructors/////////////////////////////////////////////////////////////////////////////
+        // Constructors ////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         public MainWindowViewModel()
@@ -43,11 +46,11 @@ namespace Hashzone.ViewModels
             SetupNotification();
         }
 
-        // Constructors/////////////////////////////////////////////////////////////////////////////
+        // Constructors ////////////////////////////////////////////////////////////////////////////
 
 
 
-        // Public///////////////////////////////////////////////////////////////////////////////////
+        // Public //////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         public void HandleFileDropEvent(DragEventArgs e)
@@ -55,19 +58,10 @@ namespace Hashzone.ViewModels
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 _droppedFilePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
-                //Thread t = new Thread(new ThreadStart(DoHashFile));
-                //t.Start();
                 DoHash(_droppedFilePaths, DataFormats.FileDrop);
             }
             else if (e.Data.GetDataPresent(DataFormats.UnicodeText))
             {
-                //AllowDrop = false;
-                //string message = HashUtil.HashString((string)e.Data.GetData(
-                //                                     DataFormats.UnicodeText), _hashName);
-                //_hashMessage = message;
-                //Status = _hashName + ": " + message;
-                //AllowDrop = true;
-                //App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
                 DoHash(e.Data.GetData(DataFormats.UnicodeText), DataFormats.UnicodeText);
             }
             else
@@ -76,11 +70,11 @@ namespace Hashzone.ViewModels
             }
         }
 
-        // Public///////////////////////////////////////////////////////////////////////////////////
+        // Public //////////////////////////////////////////////////////////////////////////////////
 
 
 
-        // Private//////////////////////////////////////////////////////////////////////////////////
+        // Private /////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         private void SetupNotification()
@@ -97,27 +91,6 @@ namespace Hashzone.ViewModels
                 else
                     Status = "Invalid";
             }));
-        }
-
-        private void DoHashFile()
-        {
-            try
-            {
-                AllowDrop = false;
-                Status = "Hashing file. . .";
-                string message = HashUtil.HashFile(_droppedFilePaths[0], _hashName);
-                _hashMessage = message;
-                Status = _hashName + ": " + message;
-                App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
-            }
-            catch (Exception ex)
-            {
-                Status = "Unable to hash the file.";
-            }
-            finally
-            {
-                AllowDrop = true;
-            }
         }
 
         private void DoHash(object data, string format)
@@ -137,6 +110,7 @@ namespace Hashzone.ViewModels
                     {
                         message = HashUtil.HashString((string)data, _hashName);
                     }
+
                     _hashMessage = message;
                     Status = _hashName + ": " + message;
                     App.Notification.NotifyColleagues("CanCopyMessage", _hashMessage);
@@ -153,11 +127,11 @@ namespace Hashzone.ViewModels
             t.Start();
         }
 
-        // Private//////////////////////////////////////////////////////////////////////////////////
+        // Private /////////////////////////////////////////////////////////////////////////////////
 
 
 
-        // Properties///////////////////////////////////////////////////////////////////////////////
+        // Properties //////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////
 
         public string HashName
@@ -199,6 +173,6 @@ namespace Hashzone.ViewModels
             }
         }
 
-        // Properties///////////////////////////////////////////////////////////////////////////////
+        // Properties //////////////////////////////////////////////////////////////////////////////
     }
 }
