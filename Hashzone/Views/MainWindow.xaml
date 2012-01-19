@@ -5,7 +5,7 @@
         xmlns:v="clr-namespace:Hashzone.Views"
         Title="Hashzone" Height="251" Width="415" AllowDrop="{Binding Path=AllowDrop}" 
         Icon="/Hashzone;component/1325306667_Drop_Box.ico" WindowStartupLocation="CenterScreen" 
-        Drop="FileDropEventHandler" Topmost="True">
+        Drop="FileDropEventHandler" Topmost="True" ResizeMode="CanMinimize">
 
   <Window.DataContext>
     <vm:MainWindowViewModel />
@@ -25,7 +25,7 @@
         <vm:ContextMenuViewModel />
       </ContextMenu.DataContext>
 
-      <MenuItem Header="Copy" Command="{Binding Path=CopyCommand}" 
+      <MenuItem Header="Copy the hash" Command="{Binding Path=CopyCommand}" 
                   ToolTip="{Binding Path=MessageToCopy}"/>
       <MenuItem Header="Paste to compare" Command="{Binding Path=PasteCommand}" 
                   ToolTip="{Binding Path=MessageToPaste}"/>

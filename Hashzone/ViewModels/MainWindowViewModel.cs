@@ -87,9 +87,9 @@ namespace Hashzone.ViewModels
             App.Notification.Register("PasteExecuted", (Action<string>)(hashMsg =>
             {
                 if (hashMsg.Trim().ToLower().Equals(_hashMessage))
-                    Status = "Valid";
+                    Status = "Identical";
                 else
-                    Status = "Invalid";
+                    Status = "Nonidentical";
             }));
         }
 
