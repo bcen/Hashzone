@@ -55,7 +55,8 @@ namespace Hashzone.ViewModels
                                                                         false));
             _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-384 Managed", "SHA384",
                                                                         false));
-
+            _hashFuncMenuItemList.Add(new HashFunctionMenuItemViewModel("SHA-512 Managed", "SHA512",
+                                                                                    false));
             SetupNotification();
         }
 

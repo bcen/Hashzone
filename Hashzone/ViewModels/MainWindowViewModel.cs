@@ -86,7 +86,7 @@ namespace Hashzone.ViewModels
 
             App.Notification.Register("PasteExecuted", (Action<string>)(hashMsg =>
             {
-                if (hashMsg.Equals(_hashMessage))
+                if (hashMsg.Trim().ToLower().Equals(_hashMessage))
                     Status = "Valid";
                 else
                     Status = "Invalid";

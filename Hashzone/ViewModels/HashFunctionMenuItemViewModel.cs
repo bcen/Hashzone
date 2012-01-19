@@ -86,12 +86,14 @@ namespace Hashzone.ViewModels
             get
             {
                 if (_hashFuncChangeCommand == null)
+                {
                     _hashFuncChangeCommand = new RelayCommand(() =>
                     {
                         App.Notification.NotifyColleagues("HashFuncChangeExecute");
                         App.Notification.NotifyColleagues("HashFuncChanged", Name);
                         IsChecked = true;
                     });
+                }
 
                 return _hashFuncChangeCommand;
             }
